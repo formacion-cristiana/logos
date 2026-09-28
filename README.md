@@ -9,10 +9,10 @@ Está desarrollada con **React + Vite** y funciona como una aplicación web est�
 La aplicación incluye actualmente:
 
 * YHWH (adivinar las palabras agregando vocales)
-* Wordle
-* Pescadores de palabras (Sopa de letras)
-* Crucigrama
-* Categorizar
+* LETRAS (Wordle)
+* KAOS (Sopa de letras)
+* CRUZADAS (Crucigrama)
+* COSMOS (Categorizar)
 * Crucificado (Ahorcado)
 
 ## Requisitos
