@@ -17,6 +17,32 @@ Pendiente:
                      🎲   ·   ADIVINÁ · ENCONTRÁ    ·  🧩🕹️    ·  ORDENÁ · AGRUPÁ  ·   🎳🥇   ·   COMPETÍ ·   DESAFIÁ  · 🎯 
     </div>
 
+### Cambios en App.jsx
+<Router basename={import.meta.env.BASE_URL}>
+
+### GameShell.jsx
+import { SITE_TITLE,GIT_URL } from "../config/siteConfig.js";
+
+const LOGO_URL = "/images/logo-FC.png";
+const TITULO_URL = "/images/logo-titulo.png";
+
+export default function GameShell({ title, subtitle, children, rightControls }) {
+  return (
+    <div className="min-h-screen bg-[#95ACCF]">
+      <header className="px-4 pt-4 pb-1 max-w-4xl mx-auto">
+        <div className="relative text-center">
+
+          <div className="flex-1 text-center">
+          <a
+            href={GIT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="shrink-0"
+          >
+          <img src={import.meta.env.BASE_URL +TITULO_URL} alt="Formación Cristiana" className=" rounded-md object-cover mb-9"  />
+          </a>
+
+          
 ### Glosarios
 - diseño inicial como presentado en los primeros archivos adjuntos (index.html, app.js.md): con letra inicial, botón "volver arriba" y separador (manteniendo 3 columnas).
 - Las categorías que solo se diferencian por un par de corchetes se consideran la misma categoría

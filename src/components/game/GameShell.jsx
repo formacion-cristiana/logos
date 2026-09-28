@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { SITE_TITLE,GIT_URL } from "../config/siteConfig.js";
 
 const LOGO_URL = "/images/logo-FC.png";
 const TITULO_URL = "/images/logo-titulo.png";
@@ -12,12 +13,12 @@ export default function GameShell({ title, subtitle, children, rightControls }) 
 
           <div className="flex-1 text-center">
           <a
-            href="http://formacion-cristiana.github.io"
+            href={GIT_URL}
             target="_blank"
             rel="noreferrer"
             className="shrink-0"
           >
-          <img src={TITULO_URL} alt="Formación Cristiana" className=" rounded-md object-cover mb-9"  />
+          <img src={import.meta.env.BASE_URL +TITULO_URL} alt="Formación Cristiana" className=" rounded-md object-cover mb-9"  />
           </a>
 
 
