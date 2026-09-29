@@ -8,7 +8,7 @@ const TITULO_URL = "/images/logo-titulo.png";
 export default function GameShell({ title, subtitle, children, rightControls }) {
   return (
     <div className="min-h-screen bg-[#95ACCF]">
-      <header className="px-4 pt-4 pb-1 max-w-4xl mx-auto">
+      <header className="px-4 pt-4 pb-1 max-w-3xl mx-auto">
         <div className="relative text-center">
 
           <div className="flex-1 text-center">

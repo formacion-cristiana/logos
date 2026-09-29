@@ -31,7 +31,7 @@ export default function Home() {
     </div>
 
 
-      <div className="grid gap-4 mt-4 " style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+      <div className="grid gap-4 mt-10 " style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
         {GAMES.map((g) =>
           g.ready ? (
             <Link
