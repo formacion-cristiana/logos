@@ -9,6 +9,15 @@ import { generateCrossword } from "@/lib/crossword";
 import { useCountdown } from "@/hooks/useCountdown";
 import { getCompoundWords, shuffle, normalizeLetter, t } from "@/lib/words";
 
+
+
+
+const focusKeyboard = useCallback(() => {
+  setTimeout(() => {
+    keyboardInputRef.current?.focus();
+  }, 0);
+}, []);
+
 function wordStart(grid, r, c, dir) {
   const dr = dir, dc = 1 - dir;
   let sr = r, sc = c;
@@ -46,6 +55,7 @@ export default function Crucigrama() {
   const [bonusWord, setBonusWord] = useState(null);
   const [bonusQueue, setBonusQueue] = useState([]);
   const didPauseForBonus = useRef(false);
+
   const keyboardInputRef = useRef(null);
 
   const timeoutHandlerRef = useRef(() => {});
@@ -193,41 +203,15 @@ export default function Crucigrama() {
 
   const handleEndGame = useCallback(() => { setPhase("end"); pause(); reset(0); }, [pause, reset]);
 
-
-useEffect(() => {
-  const handler = (e) => {
-    if (
-      phase !== "play" ||
-      awaitingContinue ||
-      bonusWord ||
-      view !== "play" ||
-      !selected
-    ) return;
-
-    // Si la tecla viene del input del teclado virtual,
-    // no la procesamos también aquí.
-    if (e.target === keyboardInputRef.current) return;
-
-    if (e.key === "Backspace") {
-      e.preventDefault();
-      backspace();
-    } else if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ]$/.test(e.key)) {
-      typeLetter(e.key);
-    }
-  };
-
-  window.addEventListener("keydown", handler);
-
-  return () => window.removeEventListener("keydown", handler);
-}, [
-  phase,
-  awaitingContinue,
-  view,
-  selected,
-  backspace,
-  typeLetter,
-]);
-
+  useEffect(() => {
+    const handler = (e) => {
+      if (phase !== "play" || awaitingContinue || bonusWord || view !== "play" || !selected) return;
+      if (e.key === "Backspace") { e.preventDefault(); backspace(); }
+      else if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ]$/.test(e.key)) { typeLetter(e.key); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [phase, awaitingContinue, view, selected, backspace, typeLetter]);
 
   // Auto-detect completed words and award points as they are solved.
   useEffect(() => {
@@ -274,19 +258,17 @@ useEffect(() => {
     }
   }, [bonusWord, bonusQueue, solvedWords, cw, phase, awaitingContinue]);
 
-  useEffect(() => {
-    // teclado virtual
-    if (
-      phase === "play" &&
-      view === "play" &&
-      selected &&
-      !awaitingContinue &&
-      !bonusWord
-    ) {
-      keyboardInputRef.current?.focus();
-    }
-  }, [selected, phase, view, awaitingContinue, bonusWord]);
-
+useEffect(() => {
+  if (
+    phase === "play" &&
+    view === "play" &&
+    selected &&
+    !awaitingContinue &&
+    !bonusWord
+  ) {
+    keyboardInputRef.current?.focus();
+  }
+}, [selected, phase, view, awaitingContinue, bonusWord]);
 
   const fmtTime = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   const winner = useMemo(() => {
@@ -308,30 +290,30 @@ useEffect(() => {
       )}
       {phase === "play" && config && view === "play" && cw && (
         <div className="no-print">
-           <input
-        ref={keyboardInputRef}
-        type="text"
-        inputMode="text"
-        autoCapitalize="characters"
-        autoCorrect="off"
-        spellCheck="false"
-        aria-label="Introducir letra"
-        className="fixed left-[-1000px] top-0 w-1 h-1 opacity-0"
-        onInput={(e) => {
-          const value = e.currentTarget.value;
-
-          if (value) {
-            typeLetter(value.slice(-1));
-            e.currentTarget.value = "";
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Backspace") {
-            e.preventDefault();
-            backspace();
-          }
-        }}
-      />
+          <input
+  ref={keyboardInputRef}
+  type="text"
+  inputMode="text"
+  autoCapitalize="characters"
+  autoCorrect="off"
+  spellCheck="false"
+  aria-label="Introducir letra"
+  className="fixed left-[-1000px] top-0 w-1 h-1 opacity-0"
+  onInput={(e) => {
+    const value = e.currentTarget.value;
+    if (value) {
+      const letter = value.slice(-1);
+      typeLetter(letter);
+      e.currentTarget.value = "";
+    }
+  }}
+  onKeyDown={(e) => {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      backspace();
+    }
+  }}
+/>
 
           <Scoreboard players={config.players} scores={scores} currentPlayer={currentPlayer} />
           <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
