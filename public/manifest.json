@@ -1,0 +1,17 @@
+{
+  "name": "Formación Cristiana",
+  "short_name": "Formación Cristiana",
+  "description": "Juegos y quizzes para aprender jugando.",
+  "start_url": "/logos/",
+  "scope": "/logos/",
+  "display": "standalone",
+  "background_color": "#95ACCF",
+  "theme_color": "#4a6fa5",
+  "icons": [
+    {
+      "src": "/logos/images/logo-FC.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
