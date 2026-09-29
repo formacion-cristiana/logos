@@ -27,6 +27,17 @@
 
   <script type="module">
     alert("MODULE");
+
+    import("/src/main.jsx")
+      .then(() => {
+        alert("MAIN CARGADO");
+      })
+      .catch((error) => {
+        alert(
+          "ERROR MAIN:\n" +
+          (error.message || error)
+        );
+      });
   </script>
 </body>
 </html>
