@@ -22,6 +22,9 @@ const mrules = "Clica una palabra y luego la columna de su categoría. +3 pts si
   const [scores, setScores] = useState([]);
   const [cards, setCards] = useState([]);
   const [cats, setCats] = useState([]);
+  
+  const [categorized, setCategorized] = useState({});
+
   const [selected, setSelected] = useState(null);
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [feedback, setFeedback] = useState(null);
@@ -40,6 +43,9 @@ const mrules = "Clica una palabra y luego la columna de su categoría. +3 pts si
     setScores(Array(cfg.players.length).fill(0));
     setCards(c);
     setCats([...cfg.categories]);
+    
+    setCategorized({});
+
     setSelected(null);
     setCurrentPlayer(0);
     setFeedback(null);
@@ -66,15 +72,28 @@ const mrules = "Clica una palabra y luego la columna de su categoría. +3 pts si
     if (bonusWord || !selected) return;
     const card = cards.find((c) => c.id === selected);
     if (!card) return;
-    if (card.category === cat) {
-      // correcto: +3 pts, quita la palabra, bonus
-      addScore(currentPlayer, 3);
-      setCards((prev) => prev.filter((c) => c.id !== selected));
-      setSelected(null);
-      setFeedback({ type: "good", text: `¡Correcto! +3 pts. ${config.players[currentPlayer].name} continúa.` });
-      setBonusWord(card);
-      pause();
-    } else {
+ if (card.category === cat) {
+  // correcto: +3 pts, quita la palabra de pendientes
+  // y la agrega dentro de la categoría correspondiente
+  addScore(currentPlayer, 3);
+
+  setCards((prev) => prev.filter((c) => c.id !== selected));
+
+  setCategorized((prev) => ({
+    ...prev,
+    [cat]: [...(prev[cat] || []), card],
+  }));
+
+  setSelected(null);
+
+  setFeedback({
+    type: "good",
+    text: `¡Correcto! +3 pts. ${config.players[currentPlayer].name} continúa.`,
+  });
+
+  setBonusWord(card);
+  pause();
+} else {
       // incorrecto: -1 pt, devuelve la palabra, siguiente jugador
       addScore(currentPlayer, -1);
       setSelected(null);
@@ -141,15 +160,28 @@ const mrules = "Clica una palabra y luego la columna de su categoría. +3 pts si
             </div>
           </div>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${cats.length}, minmax(0, 1fr))` }}>
-            {cats.map((cat) => (
-              <div
-                key={cat}
-                onClick={() => handleColumnClick(cat)}
-                className="rounded-2xl border border-[#d9d2c5] bg-[#fffdf8] p-3 min-h-[120px] cursor-pointer hover:border-[#4a6fa5]"
-              >
-                <h3 className="font-semibold text-center mb-2">{cat}</h3>
-              </div>
-            ))}
+{cats.map((cat) => (
+  <div
+    key={cat}
+    onClick={() => handleColumnClick(cat)}
+    className="rounded-2xl border border-[#d9d2c5] bg-[#fffdf8] p-3 min-h-[120px] cursor-pointer hover:border-[#4a6fa5]"
+  >
+    <h3 className="font-semibold text-center mb-2">
+      {cat}
+    </h3>
+
+    <div className="space-y-1">
+      {(categorized[cat] || []).map((c) => (
+        <div
+          key={c.id}
+          className="rounded-lg bg-[#eef2f8] border border-[#c9d4e6] px-2 py-1.5 text-sm text-center"
+        >
+          {c.word}
+        </div>
+      ))}
+    </div>
+  </div>
+))}
           </div>
           <div className="mt-4 rounded-2xl border border-[#d9d2c5] bg-[#fffdf8] p-4">
             <h3 className="font-semibold mb-2">Palabras por clasificar ({cards.length})</h3>

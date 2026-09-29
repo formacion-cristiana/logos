@@ -87,16 +87,40 @@ function buildSoups(lang, categories, diagonals) {
     const total = bySub.reduce((a, s) => a + s.simples.length, 0);
     const maxLen = Math.max(6, ...bySub.flatMap((s) => s.simples.map((x) => x.normalized.length)));
     const size = Math.min(16, Math.max(10, maxLen + 2));
-    if (total <= THRESHOLD) {
-      const words = bySub.flatMap((s) => s.simples);
-      if (words.length) soups.push({ title: catName, category: catName, grouped: bySub.filter((s) => s.simples.length), puzzle: buildPuzzle(words, size, diagonals) });
-    } else {
-      bySub.forEach((s) => {
-        if (!s.simples.length) return;
-        const sm = Math.min(16, Math.max(10, Math.max(6, ...s.simples.map((x) => x.normalized.length)) + 2));
-        soups.push({ title: `${catName} > ${s.sub}`, category: catName, subcategory: s.sub, grouped: [s], puzzle: buildPuzzle(s.simples, sm, diagonals) });
-      });
-    }
+if (total <= THRESHOLD) {
+  const words = bySub.flatMap((s) => s.simples);
+
+  if (words.length) {
+    soups.push({
+      title: catName,
+      category: catName,
+      hasBonus: true,
+      grouped: bySub.filter((s) => s.simples.length),
+      puzzle: buildPuzzle(words, size, diagonals)
+    });
+  }
+} else {
+  bySub.forEach((s) => {
+    if (!s.simples.length) return;
+
+    const sm = Math.min(
+      16,
+      Math.max(
+        10,
+        Math.max(6, ...s.simples.map((x) => x.normalized.length)) + 2
+      )
+    );
+
+    soups.push({
+      title: `${catName} > ${s.sub}`,
+      category: catName,
+      subcategory: s.sub,
+      hasBonus: false,
+      grouped: [s],
+      puzzle: buildPuzzle(s.simples, sm, diagonals)
+    });
+  });
+}
   }
   return soups;
 }
@@ -191,10 +215,28 @@ export default function Sopa() {
       const next = new Set(found); next.add(idx);
       setFound(next);
       addScore(currentPlayer, w.normalized.length);
-      const isLast = next.size >= puzzle.placed.length;
-      setBonusIsLast(isLast);
-      setBonusWord(w);
-      pause();
+
+const isLast = next.size >= puzzle.placed.length;
+
+if (soups[soupIdx]?.hasBonus) {
+  setBonusIsLast(isLast);
+  setBonusWord(w);
+  pause();
+} else if (isLast) {
+  const nextIdx = soupIdx + 1;
+
+  if (nextIdx >= soups.length) {
+    setFeedback({ type: "good", text: "¡Última sopa completada!" });
+    setAwaitingContinue(true);
+  } else {
+    setFeedback({ type: "good", text: "¡Sopa completada!" });
+    setAwaitingContinue(true);
+  }
+} else {
+  reset(turnTime);
+  start(turnTime);
+}
+
     } else {
       setFeedback({ type: "bad", text: "No es una palabra de la lista." });
     }
@@ -308,19 +350,28 @@ export default function Sopa() {
               <SopaGrid grid={puzzle.grid} size={puzzle.size} foundCells={foundCells} selCells={selCells} hintCells={hintCells} onCellClick={handleCellClick} onCellHover={(r, c) => selStart && setHover({ r, c })} />
             </div>
             <div className="rounded-2xl border border-[#d9d2c5] bg-[#fffdf8] p-4">
-              <h3 className="font-semibold mb-2">Palabras a encontrar ({puzzle.placed.length})</h3>
-              <div className="space-y-2 mb-2">
-                {grouped.map(([sub, items]) => (
-                  <div key={sub}>
-                    <div className="text-xs font-bold text-[#4a6fa5] uppercase tracking-wide">{sub}</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {items.map(({ w, i }) => (
-                        <span key={i} className={`text-sm px-2 py-0.5 rounded ${found.has(i) ? "line-through text-[#236b3b] font-semibold" : "text-[#1d1d1b]"}`}>{w.word}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h3 className="font-semibold mb-2 text-3xl">
+               {soups[soupIdx].title.toUpperCase()} 
+              </h3>
+            
+<div className="flex flex-wrap gap-1.5 mb-2">
+  {puzzle.placed.map((w, i) => (
+
+
+    <span
+      key={i}
+      className={`text-sm px-2 py-0.5 rounded ${
+        found.has(i)
+          ? "line-through text-[#236b3b] font-semibold"
+          : "text-[#1d1d1b]"
+      }`}
+    >
+      {w.word}
+    </span>
+  ))}
+</div>
+
+
               {bonusWord ? (
                 <SubcategoryBonus word={bonusWord} lang={lang} onDone={handleBonusDone} />
               ) : (
@@ -352,7 +403,7 @@ export default function Sopa() {
             p.placed.forEach((w, i) => { if (!gmap.has(w.subcategory)) gmap.set(w.subcategory, []); gmap.get(w.subcategory).push({ w, i }); });
             return (
               <div key={si} className="bg-white text-black p-6 mb-6 break-inside-avoid">
-                <h2 className="text-xl font-bold mb-1">YHWH · PESCADORES DE PALABRAS — {s.title}</h2>
+                <h2 className="text-xl font-bold mb-1">KAOS — {s.title}</h2>
                 <div className="inline-grid gap-0 mt-3" style={{ gridTemplateColumns: `repeat(${p.size}, 28px)` }}>
                   {p.grid.map((row, r) => row.map((ch, c) => (
                     <div key={`${r}-${c}`} className="w-7 h-7 flex items-center justify-center border border-black text-sm font-bold uppercase">{ch}</div>
