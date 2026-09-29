@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GameShell from "@/components/game/GameShell";
 import Glossaries from "@/components/game/Glossaries";
 import { LANGS, LANG_LABELS } from "@/lib/words";
+import { SITE_TITLE,SITE_SUBTITLE ,SITE_DESCRIPTION} from "../../config/siteConfig.js";
 
 const GAMES = [
   { key: "yhwh", title: "YHWH ✡️", desc: "ADIVINÁ palabras agregando vocales.", to: "https://formacion-cristiana.github.io/yhwh", ready: true ,    external: true},
@@ -12,15 +13,21 @@ const GAMES = [
   { key: "sopa", title: "KAOS 🌊", desc: "ENCONTRÁ palabras escondidas.", to: "/sopa", ready: true },
   { key: "categorizar", title: "KOSMOS ⚛️", desc: "ORDENÁ palabras en categorías.", to: "/categorizar", ready: true },
   { key: "cronos", title: "CRONOS 🕞", desc: "ORDENÁ palabras en el tiempo.", to: "/cronos", ready: false },
-  { key: "triadas", title: "TRÍADAS 🔱", desc: "AGRUPÁ palabras de a tres.", to: "/triadas", ready: false } 
+  { key: "triadas", title: "TRÍADAS ⚜️", desc: "AGRUPÁ palabras de a tres.", to: "/triadas", ready: false } 
 ];
 
 export default function Home() {
   const [lang, setLang] = useState("es");
   return (
-    <GameShell title="PURAS PALABRAS" subtitle="Juegos de 1 o más jugadores para construir un glosario Cristiano">
+    <GameShell title={SITE_TITLE.toUpperCase()} subtitle={SITE_SUBTITLE}>
+
+ 
+    <div className="mt-1 mb-3 text-center text-l text-[#444444]">
+      {SITE_DESCRIPTION}
+    </div>
     <div className="text-center text-l font-bold text-[#444444]">
-                     🎲   ·   ADIVINÁ · ENCONTRÁ    ·  🧩🕹️    ·  ORDENÁ · AGRUPÁ  ·   🎳🥇   ·   COMPETÍ ·   DESAFIÁ  · 🎯 
+
+                     🎲   ·   ADIVINÁ · ENCONTRÁ    ·  🔍🧩    ·  ORDENÁ · AGRUPÁ  ·   🧮🥇   ·   COMPETÍ ·   DESAFIÁ  · 🎯 
     </div>
 
 

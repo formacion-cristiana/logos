@@ -12,6 +12,10 @@ function buildCards(lang, categories) {
 }
 
 export default function Categorizar() {
+  const mtitle ="KOSMOS ⚛️"
+const msubtitle = "🧮 AGRUPÁ las palabras en categorías"
+const mrules = "Clica una palabra y luego la columna de su categoría. +3 pts si aciertas (continúas), -1 pt si fallas (pasa el turno)."
+
   const [lang, setLang] = useState("es");
   const [phase, setPhase] = useState("config");
   const [config, setConfig] = useState(null);
@@ -116,10 +120,10 @@ export default function Categorizar() {
   }, [phase, config, scores]);
 
   return (
-    <GameShell title="CATEGORIZAR" subtitle="Clica una palabra y luego la columna de su categoría. Verificación inmediata. +3 pts si aciertas (continúas), -1 pt si fallas (pasa el turno).">
+    <GameShell title={mtitle} subtitle={msubtitle}>
       {phase === "config" && (
         <>
-          <GameConfig lang={lang} setLang={setLang} onStart={handleStart} startLabel="Comenzar Categorizar" minCategories={2} rules={t(lang, "rulesCategorizar")} />
+          <GameConfig lang={lang} setLang={setLang} onStart={handleStart} startLabel="Comenzar Categorizar" minCategories={2} rules={t(lang, mrules)} />
           {startError && <p className="text-[#9b2c2c] font-medium mt-3 text-center">{startError}</p>}
         </>
       )}

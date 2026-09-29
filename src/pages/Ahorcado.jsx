@@ -10,6 +10,7 @@ import { getSimpleWords, shuffle, normalizeLetter, t } from "@/lib/words";
 
 
 export default function Ahorcado() {
+const mtitle ="CRUCIFICADO ✝️"
 const msubtitle = "ADIVINÁ la mayor cantidad de palabras antes de completar el Vía Crucis."
 const mrules = "Adivina la palabra letra por letra. Cada error avanza tu Vía Crucis. +1 pt por letra correcta. 12 vidas por jugador."
 
@@ -202,7 +203,7 @@ const mrules = "Adivina la palabra letra por letra. Cada error avanza tu Vía Cr
   const curWrong = wrongByPlayer[currentPlayer] ?? 0;
 
   return (
-    <GameShell title="CRUCIFICADO" subtitle={msubtitle}>
+    <GameShell title={mtitle} subtitle={msubtitle}>
       {phase === "config" && (
         <>
           <GameConfig lang={lang} setLang={setLang} onStart={handleStart} startLabel="Comenzar Crucificado" minCategories={1} rules={t(lang, mrules)} />

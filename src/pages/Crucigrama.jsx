@@ -23,6 +23,7 @@ function collectCells(grid, sr, sc, dir) {
 }
 
 export default function Crucigrama() {
+  const mtitle ="CRUZADAS ⚔️"
   const msubtitle = "Cada cruce un punto de encuentro, una letra de ayuda mutua."
   const mrules = "El Jugador 1 tiene que adivinar las palabras horizontales. El Jugador 2 las verticales. Si hay un Jugador 3 puede adivinar cualquiera. <p>Clica una casilla para elegir la palabra; vuelve a clicar para cambiar de dirección.</p>"
 
@@ -255,7 +256,7 @@ export default function Crucigrama() {
   }, [phase, config, scores]);
 
   return (
-    <GameShell title="CRUZADAS ⚔️" subtitle={msubtitle}>
+    <GameShell title={mtitle} subtitle={msubtitle}>
       <style>{`@media print { .no-print { display: none !important; } body { background: #fff !important; } }`}</style>
       {phase === "config" && (
         <>

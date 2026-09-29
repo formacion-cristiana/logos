@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SITE_TITLE,GIT_URL } from "../config/siteConfig.js";
+import { SITE_TITLE,GIT_URL } from "../../../config/siteConfig.js";
 
 const LOGO_URL = "/images/logo-FC.png";
 const TITULO_URL = "/images/logo-titulo.png";
@@ -28,7 +28,9 @@ export default function GameShell({ title, subtitle, children, rightControls }) 
   </h1>
 </Link>
             {subtitle && (
-              <p className="mt-1 mb-3 text-[#3a3a36] text-xs sm:text-base">{subtitle}</p>
+              <p className="mt-1 mb-3 text-[#444444] text-l sm:text-base text-bold font-bold">
+
+                {subtitle}</p>
             )}
           </div>
           <div className="shrink-0 flex items-center gap-2 min-w-[36px]">{rightControls}</div>

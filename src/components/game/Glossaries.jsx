@@ -9,7 +9,7 @@ export default function Glossaries({ lang }) {
 
   return (
     <div className="mt-8 space-y-3">
-      <h2 className="text-xl font-bold text-[#1d1d1b] m-0">GLOSARIOS</h2>
+      <h2 className="text-xl font-bold text-[#1d1d1b] m-0">🔤 GLOSARIOS</h2>
 
       <Section title="Glosario de Categorías" open={open.cat} onToggle={() => setOpen((o) => ({ ...o, cat: !o.cat }))} count={cats.length}>
         <dl className="grid gap-x-6 gap-y-1" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))" }}>

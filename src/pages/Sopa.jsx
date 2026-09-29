@@ -102,6 +102,11 @@ function buildSoups(lang, categories, diagonals) {
 }
 
 export default function Sopa() {
+
+  const mtitle ="KAOS 🌊"
+  const msubtitle = "🎣 PESCÁ las palabras escondidas en el MAR de letras 🔤"
+  const mrules = "Al encontrar una palabra escondida clicá la primera y la última letra."
+
   const [lang, setLang] = useState("es");
   const [phase, setPhase] = useState("config");
   const [view, setView] = useState("play");
@@ -269,7 +274,7 @@ export default function Sopa() {
   }, [puzzle]);
 
   return (
-    <GameShell title="PESCADORES DE PALABRAS" subtitle="Encuentra las palabras escondidas. Clica la primera y la última letra. Una sopa por subcategoría.">
+         <GameShell title={mtitle} subtitle={msubtitle}>
       <style>{`@media print { .no-print { display: none !important; } body { background: #fff !important; } }`}</style>
       {phase === "config" && (
         <>
@@ -279,7 +284,7 @@ export default function Sopa() {
             onStart={handleStart}
             startLabel="Comenzar Pesca"
             minCategories={1}
-            rules={t(lang, "rulesPescadores")}
+            rules={t(lang, mrules)}
             gameOptions={[{ key: "diagonals", label: "Permitir palabras en diagonales", default: true }]}
           />
           {startError && <p className="text-[#9b2c2c] font-medium mt-3 text-center">{startError}</p>}
