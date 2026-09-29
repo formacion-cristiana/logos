@@ -11,33 +11,10 @@
 
     <title>Formación Cristiana</title>
   </head>
-<body>
-  <div style="font-size:30px;padding:30px;">
-    HTML FUNCIONA
-  </div>
 
-  <div id="root"></div>
+  <body>
+    <div id="root"></div>
 
-  <script>
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      "<div style='font-size:30px;padding:30px;color:green'>JS NORMAL FUNCIONA</div>"
-    );
-  </script>
-
-  <script type="module">
-    alert("MODULE");
-
-    import("/src/main.jsx")
-      .then(() => {
-        alert("MAIN CARGADO");
-      })
-      .catch((error) => {
-        alert(
-          "ERROR MAIN:\n" +
-          (error.message || error)
-        );
-      });
-  </script>
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
