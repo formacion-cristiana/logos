@@ -5,6 +5,9 @@ import { SITE_BASE } from "./config/siteConfig.js";
 
 export default defineConfig({
   base: SITE_BASE,
+  build: {
+  target: "safari15",
+},
   plugins: [
     react(),
   ],
