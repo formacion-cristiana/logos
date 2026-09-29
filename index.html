@@ -10,34 +10,14 @@
     <link rel="manifest" href="/manifest.json" />
 
     <title>Formación Cristiana</title>
-
-    <script>
-  window.addEventListener("error", function (event) {
-    document.body.innerHTML =
-      "<pre style='white-space:pre-wrap;padding:20px;font-size:16px'>" +
-      "ERROR JS:\n" +
-      (event.message || "Error desconocido") +
-      "\n\nArchivo:\n" +
-      (event.filename || "") +
-      "\n\nLínea: " +
-      (event.lineno || "") +
-      "</pre>";
-  });
-
-  window.addEventListener("unhandledrejection", function (event) {
-    document.body.innerHTML =
-      "<pre style='white-space:pre-wrap;padding:20px;font-size:16px'>" +
-      "PROMISE ERROR:\n" +
-      (event.reason?.message || event.reason || "Error desconocido") +
-      "</pre>";
-  });
-</script>
-
   </head>
+<body>
+  <div style="font-size:30px;padding:30px;">
+    HTML FUNCIONA
+  </div>
 
-  <body>
-    <div id="root"></div>
+  <div id="root"></div>
 
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
